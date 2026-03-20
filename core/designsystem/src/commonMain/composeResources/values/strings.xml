@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="btn_back">Back</string>
+    <string name="msg_err_generic">Sorry, something went wrong.</string>
+    <string name="btn_retry">Retry</string>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_search">Search</string>
+    <string name="title_similar">Similar</string>
+    <string name="msg_err_no_results">No matches</string>
+</resources>
