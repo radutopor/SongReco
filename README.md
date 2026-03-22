@@ -62,7 +62,6 @@ This particular implementation involves both back-stack and tab navigation insid
 possible to have multiple back-stacks in the same UI, nested substates, or some other complex substate composition logic - as
 long as there is also a robust strategy for managing the lifecycle of the substates.
 
-
 <img src="readme_diag_appstate.svg" width="800" />
 
 ## Project structure
