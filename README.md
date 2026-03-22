@@ -23,8 +23,8 @@ plugs into the root app view Composable. This has a few advantages, some practic
 #### Cohesion
 
 As mentioned, the app state class is the sole representational model for the app, representing both its UI and any meta-visual state.
-Conceptualising the app state as a single entity helps avoid invalid states. Also, being a modular composition of substates `data` classes,
-it makes it easy to navigate down to any relevant piece of state and see how it models the corresponding UI.
+Conceptualising the app state as a single entity helps avoid invalid states. Also, being a modular composition of `data` classes,
+it makes it easy to navigate down to any relevant piece of substate and see how it models its corresponding UI.
 
 #### Modularity
 
@@ -34,34 +34,33 @@ is achieved across Gradle modules, allowing for maximum independence between dis
 
 #### Single source of truth
 
-One StateFlow provides a stream of app state objects to the root Composable, and this is the only source for what the app presents and how
+One `StateFlow` provides a stream of app state objects to the root Composable, and this is the only source for what the app presents and how
 it behaves as a whole; there are no other mechanisms through which the app's view can change.
 
 #### Immutability
 
-Being a Kotlin data class, the app state objects emitted by the StateFlow are immutable. This means no temporary invalid states, and the
-only way to change any part of the current state is to recompose and emit a new app state object. This need for recomposition mirrors
-Compose concepts.
+Being a Kotlin data class, the app state objects are immutable. This means no temporary invalid states, and the only way to change any part
+of the current state is to recompose and emit a new app state object. This need for recomposition mirrors Compose concepts.
 
 #### Deterministic
 
-App view changes are governed by the sequential emissions of the app state StateFlow, coordinated on the Main thread, which helps with
+App view changes are governed by the sequential emissions of the app state `StateFlow`, coordinated on the Main dispatcher, which helps with
 avoiding race conditions at view level.
 
 #### Debugging
 
-Each app state emission acts as a serializable representation of the app at a given point, and sequential emissions describe the
-evolution of the app in time. By having a single point of traffic for state updates, it's easy to add debug logging to get a comprehensive
+Each app state emission acts as a serializable snapshot representation of the app at a given point, and sequential emissions describe the
+evolution of the app in time. By having a single point of traffic for state updates, it's easy to add debug logging and get a comprehensive
 and timestamped app state log.
 
 #### Navigation
 
 Lastly, this approach allows for very flexible substate configurations, and full-screen navigation is just one specific strategy for
 composing substates. In this project, the root state composes various feature substates in a `SubstateStack` container (which gives
-access to operators handling substate lifecycles), while navigation requests from the substates are modeled with `UpwardRequest`.
+access to operators handling substate lifecycles), and navigation requests from the substates are modeled with `UpwardRequest`.
 This particular implementation involves both back-stack and tab navigation inside a specific section of the parent UI. But it's equally
-possible to have multiple back-stacks in the same UI, nested substates, or some other complex substate composition logic - as
-long as there is also a robust strategy for managing the lifecycle of the substates.
+possible to have multiple back-stacks in the same UI, nested substates or back-stacks, or some other complex substate composition logic -
+as long as there is also a robust strategy for managing the lifecycle of the substates.
 
 <img src="readme_diag_appstate.svg" width="800" />
 
@@ -77,7 +76,7 @@ build artifacts.
 
 The `core` modules are single-responsibility, cross-domain project libraries, and meant to be depended on by the feature modules as needed.
 
-The `feature` modules represent vertically siloed business domains, with individual domain models and logic.
+The `feature` modules represent vertically siloed business domains, with individual domain models and logic, and associated UI.
 
 ### Framework code
 
@@ -97,9 +96,9 @@ implementation I've generally avoided relying on too much code which is not owne
 Each feature module has an `api` and an `impl` submodule - the former only contains the public models needed to interface with the feature
 (like launch parameters), while the latter contains the actual implementation. The idea is that a parent who wants to incorporate a specific
 feature would depend on its `impl` module, while sibling features who just want to interface with it would only depend on
-its minimal `api` module. This means that features can reference each other in terms of exchanged data, but not depend on each other's
+its minimal `api` module. This means that features can reference each other in terms of data exchange, but not depend on each other's
 implementation. Which in turns means better decoupling, more formalised and robust integrations, but also faster build times since
-rebuilding a feature `impl` does not recursively trigger rebuilding the dependents of its `api`.
+changes in a feature's `impl` does not recursively trigger rebuilding the dependents of its `api`.
 
 An example of this in the project is the `:feature:list:impl` module only depending on the `:feature:details:api` module.
 
