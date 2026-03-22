@@ -1,6 +1,7 @@
 # Test Multiplatform App
 
-This is a test project, created as a playground to explore some front-end architectural patterns in a multiplatform app project.
+This is a test project, created as a playground to explore some front-end architectural patterns in a multiplatform app.
+
 Here are some considerations regarding this project:
 
 ## App state
