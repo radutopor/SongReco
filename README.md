@@ -7,11 +7,11 @@ Here are some considerations regarding this project:
 ## App state
 
 The biggest subject I wanted to explore was state management in the context of a single-Activity multiplatform app with a view powered
-entirely by Compose. Seeing that Compose is inherently descriptive and promotes stateless UI, it has already been the case that the UI tends
+entirely by Compose. Seeing that Compose is inherently declarative and promotes stateless UI, it has already been the case that the UI tends
 to be very modular and hierarchical. The individual Composables are usually parametrised with state objects, usually a single Kotlin data
-class to keep the state cohesive. In a single-Activity app, a root Composable hierarchically describes the entire app's view.
+class to keep the state cohesive. In a single-Activity app, a root Composable hierarchically declares the entire app's view.
 
-That being said, I've been bothered by a case where the stateless and descriptive philosophy of Compose gets a bit nebulous, which is
+That being said, I've been bothered by a case where the stateless and declarative philosophy of Compose gets a bit nebulous, which is
 navigation. I've felt this about both Compose Navigation itself and also some of the other navigation frameworks build for Compose that came
 beforehand, where navigation state is a separte thing from UI state, maintained separately and handled by different mechanisms.
 
